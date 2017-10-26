@@ -260,14 +260,10 @@ public class SplayNaive {
 	// Splay node, either single or double rotation, determined
 	// by inequalities with parent and grandparent nodes
 
-	// Stack<Node> path = getPath(key);
-	// Node u = new Node(key); // new node to be inserted
-
 	Node u, p, top;
 	while (!path.empty()) {
-	    // Node u, p, g, top;
-	    // u = p = g = top = null; // current, parent,
-	    // grandparent, top, nodes
+
+	    // System.out.println("init stack " + path);
 	    u = path.pop();
 
 	    // Base case (root reached), set root to splayed element
@@ -280,10 +276,9 @@ public class SplayNaive {
 
 	    // u < p
 	    if (u.key < p.key) {
-
-		// p < g (zig-zig)
-
 		top = rotateRight(p);
+		// System.out.println("path after rot rt " + path);
+		// System.out.println("u=" + u + " p=" + p);
 		if (!path.empty()) {
 		    Node nextP = path.peek();
 		    if (top.key < nextP.key)
@@ -293,13 +288,19 @@ public class SplayNaive {
 		}
 	    }
 
+	    // u > p
 	    else if (u.key > p.key) {
 		top = rotateLeft(p);
-		Node nextP = path.peek();
-		if (top.key < nextP.key)
-		    nextP.left = top;
-		else
-		    nextP.right = top;
+		// System.out.println("path after rot left " + path);
+		// System.out.println("u=" + u + " p=" + p);
+
+		if (!path.empty()) {
+		    Node nextP = path.peek();
+		    if (top.key < nextP.key)
+			nextP.left = top;
+		    else
+			nextP.right = top;
+		}
 	    }
 
 	    // Handler
@@ -309,6 +310,10 @@ public class SplayNaive {
 		System.out.println("Error, keys in tree should not be identical");
 		return;
 	    }
+	    //
+	    // inorder();
+	    // preorder();
+	    // postorder();
 
 	    path.push(top);
 	}
